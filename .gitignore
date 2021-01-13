@@ -1,0 +1,12 @@
+.local/
+.lsp*
+auto-save-list/
+bookmarks
+org-roam.db
+projectile-bookmarks.eld
+projectile.cache
+transient/
+var/
+savehist/
+session*
+eshell/
