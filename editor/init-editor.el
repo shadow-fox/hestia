@@ -4,70 +4,35 @@
 
 ;;; Code:
 
-(setq default-frame-alist
-      '((top . 200) (left . 600)
-        (width . 200) (height . 65)))
-
-(menu-bar-mode -1)
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
-
+;; Reduce *Message* noise at startup. An empty scratch buffer (or the dashboard)
+;; is more than enough.
+(setq inhibit-startup-message t)
+(setq inhibit-startup-echo-area-message user-login-name)
+(setq inhibit-default-init t)
+;; Shave seconds off startup time by starting the scratch buffer in
+;; `fundamental-mode', rather than, say, `org-mode' or `text-mode', which
+;; pull in a ton of packages.
+(setq       initial-major-mode 'fundamental-mode)
+(setq initial-scratch-message nil)
 (setq use-file-dialog nil)
 (setq use-dialog-box t)
 (setq inhibit-splash-screen t)
 (setq initial-buffer-choice t)
-(setq inhibit-startup-echo-area-message "hestia") ; read the docstring
 (setq inhibit-startup-buffer-menu t)
-
 (setq frame-title-format '("%b"))
 (setq echo-keystrokes 0.25)
 (setq default-input-method "greek")
 (setq ring-bell-function 'ignore)
-
-(defalias 'yes-or-no-p 'y-or-n-p)
-(put 'narrow-to-region 'disabled nil)
-(put 'upcase-region 'disabled nil)
-(put 'downcase-region 'disabled nil)
-(put 'dired-find-alternate-file 'disabled nil)
-(put 'overwrite-mode 'disabled t)
-(blink-cursor-mode 0)
 (setq visible-cursor nil)
-
-;; default file paths for emacs related stuff.
-
-(setq backup-directory-alist
-      `((".*" . ,temporary-file-directory)))
-(setq auto-save-file-name-transforms
-      `((".*" ,temporary-file-directory t)))
-
 (setq backup-by-copying t)
 (setq version-control t)
 (setq delete-old-versions t)
 (setq kept-new-versions 6)
 (setq kept-old-versions 2)
 (setq create-lockfiles nil)
-
-(setq save-place-file (concat hestia-savefile-dir "/saveplace"))
-(setq save-place-forget-unreadable-files t)
-(save-place-mode 1)
-
-(defun full-auto-save ()
-  (interactive)
-  (save-excursion
-    (dolist (buf (buffer-list))
-      (set-buffer buf)
-      (if (and (buffer-file-name) (buffer-modified-p))
-          (basic-save-buffer)))))
-(add-hook 'auto-save-hook 'full-auto-save)
-
-(setq-default fill-column 100)
-
 ;;; No sound
 (setq visible-bell t)
 (setq ring-bell-function 'ignore)
-
-;;; Paren mode is part of the theme
-(show-paren-mode t)
 
 ;;; Line spacing, can be 0 for code and 1 or 2 for text
 (setq-default line-spacing 0)
@@ -84,6 +49,51 @@
 
 ;; Preserve contents of system clipboard
 (setq save-interprogram-paste-before-kill t)
+
+(setq default-frame-alist
+      '((top . 200) (left . 600)
+        (width . 200) (height . 65)))
+
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+
+
+(defalias 'yes-or-no-p 'y-or-n-p)
+(put 'narrow-to-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
+(put 'dired-find-alternate-file 'disabled nil)
+(put 'overwrite-mode 'disabled t)
+(blink-cursor-mode 0)
+
+;; default file paths for emacs related stuff.
+
+(setq backup-directory-alist
+      `((".*" . ,temporary-file-directory)))
+(setq auto-save-file-name-transforms
+      `((".*" ,temporary-file-directory t)))
+
+
+(setq save-place-file (concat hestia-savefile-dir "/saveplace"))
+(setq save-place-forget-unreadable-files t)
+(save-place-mode 1)
+
+(defun full-auto-save ()
+  (interactive)
+  (save-excursion
+    (dolist (buf (buffer-list))
+      (set-buffer buf)
+      (if (and (buffer-file-name) (buffer-modified-p))
+          (basic-save-buffer)))))
+(add-hook 'auto-save-hook 'full-auto-save)
+
+(setq-default fill-column 100)
+
+
+;;; Paren mode is part of the theme
+(show-paren-mode t)
+
 
 (use-package autorevert
   :diminish

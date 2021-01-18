@@ -69,6 +69,13 @@
 (use-package helpful
   :straight t)
 
+;; Contrary to what many Emacs users have in their configs, you really don't
+;; need more than this to make UTF-8 the default coding system:
+(when (fboundp 'set-charset-priority)
+  (set-charset-priority 'unicode))       ; pretty
+(prefer-coding-system 'utf-8)            ; pretty
+(setq locale-coding-system 'utf-8)       ; please
+
 (general-define-key
  "C-h f" 'helpful-callable
  "C-h v" 'helpful-variable

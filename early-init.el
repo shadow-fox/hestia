@@ -8,23 +8,19 @@
 
 ;;; Code:
 
-;; Initialise installed packages
-;; Do not initialise installed packages (I use `straight.el')
+;; A big contributor to startup times is garbage collection. We up the gc
+;; threshold to temporarily prevent it from running, then reset it later by
+;; enabling `gcmh-mode'. Not resetting it will cause stuttering/freezes.
+(setq gc-cons-threshold most-positive-fixnum)
+
+;; In noninteractive sessions, prioritize non-byte-compiled source files to
+;; prevent the use of stale byte-code. Otherwise, it saves us a little IO time
+;; to skip the mtime checks on every *.elc file.
+(setq load-prefer-newer noninteractive)
+
+;; In Emacs 27+, package initialization occurs before `user-init-file' is
+;; loaded, but after `early-init-file'.
 (setq package-enable-at-startup nil)
-
-;; Do not allow loading from the package cache (same reason).
-(setq package-quickstart nil)
-
-;; Do not resize the frame at this early stage.
-(setq frame-inhibit-implied-resize t)
-
-;; Disable GUI elements
-(menu-bar-mode -1)
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
-(setq inhibit-splash-screen t)
-(setq use-dialog-box t)               ; only for mouse events
-(setq use-file-dialog nil)
 
 (provide 'early-init)
 
