@@ -60,26 +60,49 @@
   ;;(setq which-key-idle-secondary-delay 0.05)
   (setq which-key-popup-type 'side-window)
   (setq which-key-show-prefix 'echo)
-  (setq which-key-max-display-columns 3)
+  (setq which-key-max-display-columns nil)
   (setq which-key-separator "  ")
   (setq which-key-special-keys nil)
   (setq which-key-paging-key "<next>")
+  (setq which-key-sort-order #'which-key-key-order-alpha
+        which-key-sort-uppercase-first nil
+        which-key-min-display-lines 6
+        which-key-side-window-slot -10)
+
+  (which-key-setup-side-window-bottom)
   (which-key-mode))
 
 (use-package helpful
-  :straight t)
-
-;; Contrary to what many Emacs users have in their configs, you really don't
-;; need more than this to make UTF-8 the default coding system:
-(when (fboundp 'set-charset-priority)
-  (set-charset-priority 'unicode))       ; pretty
-(prefer-coding-system 'utf-8)            ; pretty
-(setq locale-coding-system 'utf-8)       ; please
+  :straight t
+  :config
+  (setq apropos-do-all t))
 
 (general-define-key
- "C-h f" 'helpful-callable
- "C-h v" 'helpful-variable
- "C-h F" 'helpful-function)
+ [remap describe-function]  'helpful-callable
+ [remap describe-command]   'helpful-command
+ [remap describe-variable]  'helpful-variable
+ [remap describe-key]       'helpful-key
+ [remap describe-symbol]    'helpful-symbol)
+
+(use-package server
+  :straight (:type built-in)
+  :when (display-graphic-p)
+  :after pre-command-hook after-find-file focus-out-hook
+  :defer 1
+  :init
+  (when-let (name (getenv "EMACS_SERVER_NAME"))
+    (setq server-name name))
+  :config
+  (setq server-auth-dir (concat hestia-local-dir "/server/"))
+  (unless (server-running-p)
+    (server-start)))
+
+(require 'init-security)
+(require 'init-defaults)
+(require 'init-formatting)
+(require 'init-save-recent)
+(require 'init-autorevert)
+(require 'init-frames)
 
 (provide 'init-core)
 ;;; init-core.el ends here

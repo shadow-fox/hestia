@@ -4,248 +4,223 @@
 
 ;;; Code:
 
-;; Reduce *Message* noise at startup. An empty scratch buffer (or the dashboard)
-;; is more than enough.
-(setq inhibit-startup-message t)
-(setq inhibit-startup-echo-area-message user-login-name)
-(setq inhibit-default-init t)
-;; Shave seconds off startup time by starting the scratch buffer in
-;; `fundamental-mode', rather than, say, `org-mode' or `text-mode', which
-;; pull in a ton of packages.
-(setq       initial-major-mode 'fundamental-mode)
-(setq initial-scratch-message nil)
-(setq use-file-dialog nil)
-(setq use-dialog-box t)
-(setq inhibit-splash-screen t)
-(setq initial-buffer-choice t)
-(setq inhibit-startup-buffer-menu t)
-(setq frame-title-format '("%b"))
-(setq echo-keystrokes 0.25)
-(setq default-input-method "greek")
-(setq ring-bell-function 'ignore)
-(setq visible-cursor nil)
-(setq backup-by-copying t)
-(setq version-control t)
-(setq delete-old-versions t)
-(setq kept-new-versions 6)
-(setq kept-old-versions 2)
-(setq create-lockfiles nil)
-;;; No sound
-(setq visible-bell t)
-(setq ring-bell-function 'ignore)
+;;; Optimizations
 
-;;; Line spacing, can be 0 for code and 1 or 2 for text
-(setq-default line-spacing 0)
+;; A second, case-insensitive pass over `auto-mode-alist' is time wasted, and
+;; indicates misconfiguration (or that the user needs to stop relying on case
+;; insensitivity).
+(setq auto-mode-case-fold nil)
+
+;; Disable bidirectional text rendering for a modest performance boost. I've set
+;; this to `nil' in the past, but the `bidi-display-reordering's docs say that
+;; is an undefined state and suggest this to be just as good:
+(setq-default bidi-display-reordering 'left-to-right
+              bidi-paragraph-direction 'left-to-right)
+
+;; Disabling the BPA makes redisplay faster, but might produce incorrect display
+;; reordering of bidirectional text with embedded parentheses and other bracket
+;; characters whose 'paired-bracket' Unicode property is non-nil.
+(setq bidi-inhibit-bpa t)  ; Emacs 27 only
+
+;; Reduce rendering/line scan work for Emacs by not rendering cursors or regions
+;; in non-focused windows.
+(setq-default cursor-in-non-selected-windows nil)
+(setq highlight-nonselected-windows nil)
+
+;; More performant rapid scrolling over unfontified regions. May cause brief
+;; spells of inaccurate syntax highlighting right after scrolling, which should
+;; quickly self-correct.
+(setq fast-but-imprecise-scrolling t)
+
+;; Don't ping things that look like domain names.
+(setq ffap-machine-p-known 'reject)
+
+;; Resizing the Emacs frame can be a terribly expensive part of changing the
+;; font. By inhibiting this, we halve startup times, particularly when we use
+;; fonts that are larger than the system default (which would resize the frame).
+(setq frame-inhibit-implied-resize t)
+
+;; Adopt a sneaky garbage collection strategy of waiting until idle time to
+;; collect; staving off the collector while the user is working.
+(setq gcmh-idle-delay 5
+      gcmh-high-cons-threshold (* 16 1024 1024)  ; 16mb
+      gcmh-verbose t)
+
+;; Emacs "updates" its ui more often than it needs to, so we slow it down
+;; slightly from 0.5s:
+(setq idle-update-delay 1.0)
+
+;; Font compacting can be terribly expensive, especially for rendering icon
+;; fonts on Windows. Whether disabling it has a notable affect on Linux and Mac
+;; hasn't been determined, but we inhibit it there anyway. This increases memory
+;; usage, however!
+(setq inhibit-compacting-font-caches t)
+
+;; Introduced in Emacs HEAD (b2f8c9f), this inhibits fontification while
+;; receiving input, which should help with performance while scrolling.
+(setq redisplay-skip-fontification-on-input t)
+
+;; Remove command line options that aren't relevant to our current OS; means
+;; slightly less to process at startup.
+(defconst IS-MAC     (eq system-type 'darwin))
+(defconst IS-LINUX   (eq system-type 'gnu/linux))
+(unless IS-MAC   (setq command-line-ns-option-alist nil))
+(unless IS-LINUX (setq command-line-x-option-alist nil))
+
+;; Don't prompt for confirmation when we create a new file or buffer (assume the
+;; user knows what they're doing).
+(setq confirm-nonexistent-file-or-buffer nil)
+
+(setq confirm-kill-emacs #'y-or-n-p)
+
+(setq uniquify-buffer-name-style 'forward
+      ;; no beeping or blinking please
+      ring-bell-function #'ignore
+      visible-bell nil)
+
+;; middle-click paste at point, not at click
+(setq mouse-yank-at-point t)
+
+;;; Scrolling
+
+(setq hscroll-margin 2
+      hscroll-step 1
+      ;; Emacs spends too much effort recentering the screen if you scroll the
+      ;; cursor more than N lines past window edges (where N is the settings of
+      ;; `scroll-conservatively'). This is especially slow in larger files
+      ;; during large-scale scrolling commands. If kept over 100, the window is
+      ;; never automatically recentered.
+      scroll-conservatively 101
+      scroll-margin 0
+      scroll-preserve-screen-position t
+      ;; Reduce cursor lag by a tiny bit by not auto-adjusting `window-vscroll'
+      ;; for tall lines.
+      auto-window-vscroll nil
+      ;; mouse
+      mouse-wheel-scroll-amount '(5 ((shift) . 2))
+      mouse-wheel-progressive-speed nil)  ; don't accelerate scrolling
+
+;;; Cursor
+
+;; The blinking cursor is distracting, but also interferes with cursor settings
+;; in some minor modes that try to change it buffer-locally (like treemacs) and
+;; can cause freezing for folks (esp on macOS) with customized & color cursors.
+(blink-cursor-mode -1)
+
+;; Don't blink the paren matching the one at point, it's too distracting.
+(setq blink-matching-paren nil)
+
+;; Don't stretch the cursor to fit wide characters, it is disorienting,
+;; especially for tabs.
+(setq x-stretch-cursor nil)
+
+;;; Fringes
+
+;; Reduce the clutter in the fringes; we'd like to reserve that space for more
+;; useful information, like git-gutter and flycheck.
+(setq indicate-buffer-boundaries nil
+      indicate-empty-lines nil)
+
+;;; Minibuffer
+
+;; Allow for minibuffer-ception. Sometimes we need another minibuffer command
+;; while we're in the minibuffer.
+(setq enable-recursive-minibuffers t)
+
+;; Show current key-sequence in minibuffer ala 'set showcmd' in vim. Any
+;; feedback after typing is better UX than no feedback at all.
+(setq echo-keystrokes 0.02)
+
+;; Expand the minibuffer to fit multi-line text displayed in the echo-area. This
+;; doesn't look too great with direnv, however...
+(setq resize-mini-windows 'grow-only)
+
+;; Typing yes/no is obnoxious when y/n will do
+(fset #'yes-or-no-p #'y-or-n-p)
+
+;; Try really hard to keep the cursor from getting stuck in the read-only prompt
+;; portion of the minibuffer.
+(setq minibuffer-prompt-properties '(read-only t intangible t cursor-intangible t face minibuffer-prompt))
+(add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
+
+(add-to-list 'default-frame-alist '(height . 70))
+(add-to-list 'default-frame-alist '(width . 220))
+(add-to-list 'default-frame-alist '(top . 20))
+(add-to-list 'default-frame-alist '(left . 50))
+;;; Built-in packages
+
+;;;###package ansi-color
+(setq ansi-color-for-comint-mode t)
+
+;; Many major modes do no highlighting of number literals, so we do it for them
+(use-package highlight-numbers
+  :straight t
+  :hook ((prog-mode-hook conf-mode-hook) . highlight-numbers-mode)
+  :config (setq highlight-numbers-generic-regexp "\\_<[[:digit:]]+\\(?:\\.[0-9]*\\)?\\_>"))
+
+;;;###package image
+(setq image-animate-loop t)
+
+;;;###package rainbow-delimiters
+;; Helps us distinguish stacked delimiter pairs, especially in parentheses-drunk
+;; languages like Lisp.
+(use-package rainbow-delimiters
+  :straight t
+  :hook (prog-mode-hook . rainbow-delimiters-mode)
+  :config
+  (setq rainbow-delimiters-max-face-count 5))
+
+;;; Line numbers
+
+;; Explicitly define a width to reduce computation
+(setq-default display-line-numbers-width 3)
+
+;; Show absolute line numbers for narrowed regions makes it easier to tell the
+;; buffer is narrowed, and where you are, exactly.
+(setq-default display-line-numbers-widen t)
+
+;; Enable line numbers in most text-editing modes. We avoid
+;; `global-display-line-numbers-mode' because there are many special and
+;; temporary modes where we don't need/want them.
+(add-hook 'prog-mode-hook #'display-line-numbers-mode)
+(add-hook 'text-mode-hook #'display-line-numbers-mode)
+(add-hook 'conf-mode-hook #'display-line-numbers-mode)
+
+;; Underline looks a bit better when drawn lower
 (setq x-underline-at-descent-line t)
-(setq widget-image-enable nil)
 
-(setq-default bidi-paragraph-direction 'left-to-right)
-(setq bidi-inhibit-bpa t)
+;; Resolve symlinks when opening files, so that any operations are conducted
+;; from the file's true directory (like `find-file').
+(setq find-file-visit-truename t
+      vc-follow-symlinks t)
 
-;; make tab key do indent first then completion.
-(setq-default tab-always-indent 'complete)
-(setq-default tab-width 4)
-(setq-default indent-tabs-mode nil)
+;; Disable the warning "X and Y are the same file". It's fine to ignore this
+;; warning as it will redirect you to the existing buffer anyway.
+(setq find-file-suppress-same-file-warnings t)
 
-;; Preserve contents of system clipboard
-(setq save-interprogram-paste-before-kill t)
+;;
+;;; Clipboard / kill-ring
 
-(setq default-frame-alist
-      '((top . 200) (left . 600)
-        (width . 200) (height . 65)))
+;; Cull duplicates in the kill ring to reduce bloat and make the kill ring
+;; easier to peruse (with `counsel-yank-pop' or `helm-show-kill-ring'.
+(setq kill-do-not-save-duplicates t)
 
-(menu-bar-mode -1)
-(tool-bar-mode -1)
-(scroll-bar-mode -1)
+;; Allow UTF or composed text from the clipboard, even in the terminal or on
+;; non-X systems (like Windows or macOS), where only `STRING' is used.
+(setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
 
+;;
+;;; Extra file extensions to support
 
-(defalias 'yes-or-no-p 'y-or-n-p)
-(put 'narrow-to-region 'disabled nil)
-(put 'upcase-region 'disabled nil)
-(put 'downcase-region 'disabled nil)
-(put 'dired-find-alternate-file 'disabled nil)
-(put 'overwrite-mode 'disabled t)
-(blink-cursor-mode 0)
-
-;; default file paths for emacs related stuff.
-
-(setq backup-directory-alist
-      `((".*" . ,temporary-file-directory)))
-(setq auto-save-file-name-transforms
-      `((".*" ,temporary-file-directory t)))
+(nconc
+ auto-mode-alist
+ '(("/LICENSE\\'" . text-mode)
+   ("\\.log\\'" . text-mode)
+   ("rc\\'" . conf-mode)
+   ("\\.\\(?:hex\\|nes\\)\\'" . hexl-mode)))
 
 
-(setq save-place-file (concat hestia-savefile-dir "/saveplace"))
-(setq save-place-forget-unreadable-files t)
-(save-place-mode 1)
-
-(defun full-auto-save ()
-  (interactive)
-  (save-excursion
-    (dolist (buf (buffer-list))
-      (set-buffer buf)
-      (if (and (buffer-file-name) (buffer-modified-p))
-          (basic-save-buffer)))))
-(add-hook 'auto-save-hook 'full-auto-save)
-
-(setq-default fill-column 100)
-
-
-;;; Paren mode is part of the theme
-(show-paren-mode t)
-
-
-(use-package autorevert
-  :diminish
-  :config
-  (setq auto-revert-verbose t)
-  :hook (after-init-hook . global-auto-revert-mode))
-
-(use-package delsel
-  :hook (after-init-hook . delete-selection-mode))
-
-(use-package vc
-  :config
-  (setq vc-follow-symlinks t))
-
-(use-package savehist
-  :config
-  (setq savehist-file (expand-file-name "savehist" hestia-local-dir))
-  (setq history-length 1000)
-  (setq history-delete-duplicates t)
-  (setq savehist-save-minibuffer-history t)
-  :hook (after-init-hook . savehist-mode))
-
-(use-package so-long
-  :config
-  (global-so-long-mode 1))
-
-(use-package desktop
-  :config
-  (setq desktop-auto-save-timeout 300)
-  (setq desktop-dirname hestia-local-dir)
-  (setq desktop-base-file-name "desktop")
-  (setq desktop-files-not-to-save nil)
-  (setq desktop-globals-to-clear nil)
-  (setq desktop-load-locked-desktop t)
-  (setq desktop-missing-file-warning nil)
-  (setq desktop-restore-eager 0)
-  (setq desktop-restore-frames nil)
-  (setq desktop-save 'ask-if-new)
-  (desktop-save-mode 1))
-
-(use-package paren
-  :config
-  (setq show-paren-style 'parenthesis)
-  (setq show-paren-when-point-in-periphery nil)
-  (setq show-paren-when-point-inside-paren nil)
-  :hook (after-init-hook . show-paren-mode))
-
-(use-package newcomment
-  :config
-  (setq comment-empty-lines t)
-  (setq comment-fill-column nil)
-  (setq comment-multi-line t)
-  (setq comment-style 'multi-line)
-
-  (defun hestia/comment-dwim (&optional arg)
-    "Alternative to `comment-dwim': offers a simple wrapper
-around `comment-line' and `comment-dwim'.
-
-If the region is active, then toggle the comment status of the
-region or, if the major mode defines as much, of all the lines
-implied by the region boundaries.
-
-Else toggle the comment status of the line at point."
-    (interactive "*P")
-    (if (use-region-p)
-        (comment-dwim arg)
-      (save-excursion
-        (comment-line arg)))))
-
-(use-package subword
-  :diminish
-  :hook (prog-mode-hook . subword-mode))
-
-(use-package tooltip
-  :config
-  (setq tooltip-delay 0.5)
-  (setq tooltip-short-delay 0.5)
-  (setq x-gtk-use-system-tooltips nil)
-  (setq tooltip-frame-parameters
-        '((name . "tooltip")
-          (internal-border-width . 6)
-          (border-width . 0)
-          (no-special-glyphs . t)))
-  :hook (after-init-hook . tooltip-mode))
-
-(use-package pulse
-  :config
-  (defface hestia/pulse-line-modus-theme
-    '((t :inherit modus-theme-subtle-green :extend t))
-    "Ad-hoc face for `hestia/pulse-line'.
-This is done because it is not possible to highlight empty lines
-without the `:extend' property.")
-
-  (defun hestia/pulse-line (&optional face)
-    "Temporarily highlight the current line."
-    (interactive)
-    (let ((start (if (eobp)
-                     (line-beginning-position 0)
-                   (line-beginning-position)))
-          (end (line-beginning-position 2))
-          (pulse-delay .04)
-          (face (or face 'hestia/pulse-line-modus-theme)))
-      (pulse-momentary-highlight-region start end face))))
-
-(use-package emacs
-  :config
-  (setq-default scroll-preserve-screen-position t)
-  (setq-default scroll-conservatively 1) ; affects `scroll-step'
-  (setq-default scroll-margin 0)
-
-  (define-minor-mode hestia/scroll-centre-cursor-mode
-    "Toggle centred cursor scrolling behaviour."
-    :init-value nil
-    :lighter " S="
-    :global nil
-    (if hestia/scroll-centre-cursor-mode
-        (setq-local scroll-margin (* (frame-height) 2)
-                    scroll-conservatively 0
-                    maximum-scroll-margin 0.5)
-      (dolist (local '(scroll-preserve-screen-position
-                       scroll-conservatively
-                       maximum-scroll-margin
-                       scroll-margin))
-        (kill-local-variable `,local)))))
-
-(use-package emacs
-  :hook
-  (after-init-hook . column-number-mode))
-
-(use-package restart-emacs
-  :straight t)
-
-(require 'init-fonts)
-(require 'init-themes)
-
-(require 'init-flyspell)
-
-(require 'init-window)
-(require 'init-modeline)
-(require 'init-scratch)
-(require 'init-buffer)
-(require 'init-frames)
-
-;; C-c l is used for `org-store-link'.  The mnemonic for this is to
-;; focus the Line and also works as a variant of C-l.
-(general-define-key
- "C-;" 'hestia/comment-dwim
- "C-:" 'comment-kill
- "M-;" 'comment-indent
- "C-x C-;" 'comment-box
- "<s-escape>" 'hestia/pulse-line
- "C-c l" 'hestia/scroll-centre-cursor-mode)
+(require 'init-theme-font)
 
 (provide 'init-editor)
 ;;; init-editor.el ends here

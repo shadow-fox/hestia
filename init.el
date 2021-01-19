@@ -56,11 +56,9 @@
 ;; warn when opening files bigger than 100MB
 (setq large-file-warning-threshold 100000000)
 
-(setq custom-file (expand-file-name "custom.el" hestia-dir))
-
 (require 'init-core)
 (require 'init-editor)
-(require 'init-modules)
+;; (require 'init-modules)
 
 (provide 'init)
 ;;; init.el ends here
