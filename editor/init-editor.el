@@ -219,6 +219,7 @@
    ("rc\\'" . conf-mode)
    ("\\.\\(?:hex\\|nes\\)\\'" . hexl-mode)))
 
+(delete-selection-mode t)
 
 (require 'init-theme-font)
 

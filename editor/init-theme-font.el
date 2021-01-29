@@ -22,5 +22,8 @@
   :init
   (load-theme 'gruvbox t))
 
+(use-package all-the-icons
+  :straight t)
+
 (provide 'init-theme-font)
 ;;; init-theme-font.el ends here

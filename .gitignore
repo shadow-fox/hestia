@@ -10,3 +10,6 @@ var/
 savehist/
 session*
 eshell/
+workspace/
+.cache/
+eclipse*/**

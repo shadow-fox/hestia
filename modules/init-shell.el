@@ -14,6 +14,16 @@
   :config
   (envrc-global-mode))
 
+(use-package vterm
+  :straight t
+  :commands vterm-mode
+  :config
+  ;; Once vterm is dead, the vterm buffer is useless. Why keep it around? We can
+  ;; spawn another if want one.
+  (setq vterm-kill-buffer-on-exit t)
+  ;; 5000 lines of scrollback, instead of 1000
+  (setq vterm-max-scrollback 5000))
+
 (general-define-key
  :keymaps 'envrc-mode-map
  "C-c e" 'envrc-command-map)

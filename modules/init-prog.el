@@ -15,8 +15,8 @@
   (flycheck-mode-hook . flycheck-color-mode-line-mode)
   :after (flycheck))
 
-(use-package magit
-  :straight t)
+;; (use-package magit
+;;   :straight t)
 
 (use-package lsp-mode
   :straight t
@@ -33,13 +33,17 @@
   (setq lsp-modeline-diagnostics-scope :project)
   (setq lsp-modeline-code-actions-mode t)
   (setq lsp-modeline-code-actions-segments '(count icon name))
-  (setq lsp-headerline-breadcrumb-enable t)
+  (setq lsp-headerline-breadcrumb-enable nil)
   (setq lsp-auto-guess-root t)
   (setq lsp-enable-completion-at-point t)
   (setq lsp-enable-indentation t)
   (setq lsp-enable-on-type-formatting t)
   (setq lsp-enable-text-document-color t)
-  (setq lsp-signature-render-documentation t))
+  (setq lsp-signature-render-documentation t)
+  ;;  (setq lsp-headerline-breadcrumb-segments '(project file symbols))
+  (setq lsp-enable-snippet t)
+  (with-eval-after-load 'lsp-intelephense
+    (setf (lsp--client-multi-root (gethash 'iph lsp-clients)) nil)))
 
 (use-package lsp-ui
   :straight t
@@ -54,6 +58,11 @@
 (use-package lsp-ivy
   :straight t
   :commands lsp-ivy-workspace-symbol)
+
+(use-package dap-mode
+  :straight t
+  :after lsp-mode
+  :config (dap-auto-configure-mode))
 
 (general-define-key
  :keymaps 'lsp-ui-mode-map
