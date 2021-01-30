@@ -20,12 +20,11 @@
 
 (use-package lsp-mode
   :straight t
-  :commands (lsp)
+  :commands (lsp-deferred)
   :init
   (setq lsp-keymap-prefix "C-c l")
   :hook
   (lsp-mode-hook . lsp-enable-which-key-integration)
-  :commands (lsp)
   :config
   (setq lsp-completion-provider :capf)
   (setq lsp-log-io t)

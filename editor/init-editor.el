@@ -143,10 +143,10 @@
 (setq minibuffer-prompt-properties '(read-only t intangible t cursor-intangible t face minibuffer-prompt))
 (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 
-(add-to-list 'default-frame-alist '(height . 70))
-(add-to-list 'default-frame-alist '(width . 220))
-(add-to-list 'default-frame-alist '(top . 20))
-(add-to-list 'default-frame-alist '(left . 50))
+(add-to-list 'default-frame-alist '(height . 55))
+(add-to-list 'default-frame-alist '(width . 190))
+(add-to-list 'default-frame-alist '(top . 250))
+(add-to-list 'default-frame-alist '(left . 750))
 ;;; Built-in packages
 
 ;;;###package ansi-color
@@ -220,6 +220,9 @@
    ("\\.\\(?:hex\\|nes\\)\\'" . hexl-mode)))
 
 (delete-selection-mode t)
+
+(use-package restart-emacs
+  :straight t)
 
 (require 'init-theme-font)
 

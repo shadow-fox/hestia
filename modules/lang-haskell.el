@@ -39,7 +39,6 @@
   :config
   (setq lsp-haskell-server-path "haskell-language-server-wrapper")
   (add-to-list 'lsp-enabled-clients 'lsp-haskell))
-  ;; :after (haskell-mode lsp-mode))
 
 (defconst haskell-mode-leader "C-c c")
 
