@@ -12,15 +12,15 @@
 ;; Set the variable pitch face
 (set-face-attribute 'variable-pitch nil :font "Iosevka" :height 120 :weight 'regular)
 
-;; (use-package dracula-theme
-;;   :straight t
-;;   :config
-;;   (load-theme 'dracula t))
-
-(use-package gruvbox-theme
+(use-package dracula-theme
   :straight t
-  :init
-  (load-theme 'gruvbox t))
+  :config
+  (load-theme 'dracula t))
+
+;; (use-package gruvbox-theme
+;;   :straight t
+;;   :init
+;;   (load-theme 'gruvbox t))
 
 (use-package all-the-icons
   :straight t)

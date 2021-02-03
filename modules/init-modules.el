@@ -19,6 +19,7 @@
 
 (require 'lang-haskell)
 (require 'lang-python)
+(require 'lang-rust)
 
 ;; (require 'init-pdf)
 

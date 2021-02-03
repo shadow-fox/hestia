@@ -15,12 +15,14 @@
   (flycheck-mode-hook . flycheck-color-mode-line-mode)
   :after (flycheck))
 
-;; (use-package magit
-;;   :straight t)
+(use-package magit
+  :straight t
+  :custom
+  (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
 
 (use-package lsp-mode
   :straight t
-  :commands (lsp-deferred)
+  :commands (lsp lsp-deferred)
   :init
   (setq lsp-keymap-prefix "C-c l")
   :hook

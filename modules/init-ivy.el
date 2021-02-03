@@ -59,7 +59,8 @@
   ;; `counsel-imenu' -- no sorting for imenu. Sort it by appearance in page.
   (add-to-list 'ivy-sort-functions-alist '(counsel-imenu))
   ;; `counsel-find-file'
-  (setq counsel-find-file-ignore-regexp "\\(?:^[#.]\\)\\|\\(?:[#~]$\\)\\|\\(?:^Icon?\\)"))
+  (setq counsel-find-file-ignore-regexp "\\(?:^[#.]\\)\\|\\(?:[#~]$\\)\\|\\(?:^Icon?\\)")
+  (counsel-mode t))
 
 (use-package ivy-rich
   :straight t
@@ -69,6 +70,16 @@
   (setq ivy-switch-buffer-faces-alist nil)
   (ivy-set-display-transformer 'internal-complete-buffer nil)
   (ivy-rich-mode t))
+
+(use-package ivy-prescient
+  :straight t
+  :after counsel
+  :custom
+  (ivy-prescient-enable-filtering nil)
+  :config
+  ;; Uncomment the following line to have sorting remembered across sessions!
+  ;(prescient-persist-mode 1)
+  (ivy-prescient-mode 1))
 
 (use-package wgrep
   :straight t

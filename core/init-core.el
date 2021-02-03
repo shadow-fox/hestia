@@ -75,12 +75,15 @@
 (use-package helpful
   :straight t
   :config
-  (setq apropos-do-all t))
+  (setq apropos-do-all t)
+  :custom
+  (counsel-describe-function-function #'helpful-callable)
+  (counsel-describe-variable-function #'helpful-variable))
 
 (general-define-key
- [remap describe-function]  'helpful-callable
+ [remap describe-function]  'counsel-describe-function
  [remap describe-command]   'helpful-command
- [remap describe-variable]  'helpful-variable
+ [remap describe-variable]  'counsel-describe-variable
  [remap describe-key]       'helpful-key
  [remap describe-symbol]    'helpful-symbol)
 
