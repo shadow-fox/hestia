@@ -35,14 +35,19 @@
   (ivy-mode t))
 
 (use-package ivy-hydra
+  :straight t
+  :after (ivy))
+
+(use-package avy
   :straight t)
 
 (use-package ivy-avy
   :straight t
-  :after ivy)
+  :after (ivy))
 
 (use-package counsel
   :straight t
+  :after (ivy)
   :config
   ;; Don't use ^ as initial input. Set this here because `counsel' defines more
   ;; of its own, on top of the defaults.
@@ -64,7 +69,7 @@
 
 (use-package ivy-rich
   :straight t
-  :after ivy
+  :after (ivy)
   :config
   (setq ivy-rich-parse-remote-buffer nil)
   (setq ivy-switch-buffer-faces-alist nil)
@@ -73,7 +78,7 @@
 
 (use-package ivy-prescient
   :straight t
-  :after counsel
+  :after (ivy)
   :custom
   (ivy-prescient-enable-filtering nil)
   :config
@@ -87,7 +92,7 @@
 
 (use-package all-the-icons-ivy
   :straight t
-  :after ivy
+  :after (ivy)
   :config
   ;; `all-the-icons-ivy' is incompatible with ivy-rich's switch-buffer
   ;; modifications, so we disable them and merge them ourselves

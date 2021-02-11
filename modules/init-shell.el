@@ -11,12 +11,13 @@
 
 (use-package envrc
   :straight t
+  :commands (envrc-allow)
   :config
   (envrc-global-mode))
 
 (use-package vterm
   :straight t
-  :commands vterm-mode
+  :commands (vterm)
   :config
   ;; Once vterm is dead, the vterm buffer is useless. Why keep it around? We can
   ;; spawn another if want one.

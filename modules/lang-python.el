@@ -8,6 +8,7 @@
 
 (use-package poetry
   :straight t
+  :after (python-mode)
   :hook
   (python-mode-hook . poetry-tracking-mode)
   ;;(python-mode-hook . lsp)
@@ -15,8 +16,12 @@
   (when (stringp (poetry-find-project-root))
     (poetry-venv-workon)))
 
-(add-hook 'python-mode-hook #'lsp-deferred)
-(add-to-list 'lsp-enabled-clients 'pyls)
+(use-package python
+  :straight (:type built-in)
+  :hook
+  (python-mode-hook . lsp-deferred)
+  :config
+  (add-to-list 'lsp-enabled-clients 'pyls))
 
 ;; (use-package lsp-jedi
 ;;   :straight t

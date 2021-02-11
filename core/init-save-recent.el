@@ -7,7 +7,7 @@
 (use-package recentf
   :straight (:type built-in)
   ;; Keep track of recently opened files
-  :commands easymenu tree-widget timer
+  :commands (easymenu tree-widget timer)
   :hook (doom-first-file . recentf-mode)
   :commands recentf-open-files
   :config
@@ -31,7 +31,7 @@
 (use-package savehist
   :straight (:type built-in)
   ;; persist variables across sessions
-  :defer custom
+  :defer t
   :hook (doom-first-input . savehist-mode)
   :init
   (setq savehist-file (concat hestia-local-dir "/savehist"))

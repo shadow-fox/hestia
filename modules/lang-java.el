@@ -22,7 +22,7 @@
   :straight t)
 
 (use-package lsp-java
-  :after lsp-mode
+  :after (lsp)
   :straight t
   :config
   (add-hook 'java-mode-hook 'lsp)
@@ -51,13 +51,9 @@
   ;;   )
 ;;)
 
-(use-package dap-mode
-  :straight t
-  :after lsp-mode
-  :config (dap-auto-configure-mode))
-
 (use-package dap-java
-  :straight nil)
+  :straight nil
+  :after (dap-mode lsp))
 
 (provide 'lang-java)
 ;;; lang-java.el ends here

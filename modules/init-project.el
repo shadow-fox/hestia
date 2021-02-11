@@ -6,6 +6,7 @@
 
 (use-package projectile
   :straight t
+  :defer t
   :hook
   (after-init-hook . projectile-mode)
   :config

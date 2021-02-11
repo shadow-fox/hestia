@@ -42,11 +42,13 @@
 
 (use-package company-dict
   :straight t
+  :after (company)
   :config
   (setq company-dict-dir (expand-file-name "dicts" hestia-local-dir)))
 
 (use-package company-box
   :straight t
+  :after (company)
   :hook (company-mode-hook . company-box-mode)
   :config
   (setq company-box-show-single-candidate t
@@ -106,6 +108,7 @@
 
 (use-package company-quickhelp
   :straight t
+  :after (company)
   :hook
   (after-init-hook . company-quickhelp-mode))
 

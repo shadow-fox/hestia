@@ -6,6 +6,7 @@
 
 (use-package rustic
   :straight t
+  :defer t
   :config
   (add-to-list 'lsp-enabled-clients 'rust-analyzer))
 

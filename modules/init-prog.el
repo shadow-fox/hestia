@@ -17,6 +17,7 @@
 
 (use-package magit
   :straight t
+  :commands (magit-status magit-dispatch magit-file-dispatch)
   :custom
   (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
 
@@ -58,12 +59,14 @@
 
 (use-package lsp-ivy
   :straight t
-  :commands lsp-ivy-workspace-symbol)
+  :commands (lsp-ivy-workspace-symbol))
 
 (use-package dap-mode
   :straight t
-  :after lsp-mode
-  :config (dap-auto-configure-mode))
+  :after (lsp)
+  :config
+  (dap-auto-configure-mode t)
+  )
 
 (general-define-key
  :keymaps 'lsp-ui-mode-map

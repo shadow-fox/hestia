@@ -56,5 +56,7 @@
 (setq split-width-threshold 160
       split-height-threshold nil)
 
+(setq compilation-scroll-output t)
+
 (provide 'init-frames)
 ;;; init-frames.el ends here

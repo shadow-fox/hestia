@@ -37,17 +37,20 @@
   ;;
   ;; This is to empower help commands with their contextual awareness,
   ;; such as `describe-symbol'.
-  (setq use-package-hook-name-suffix nil))
+  (setq use-package-hook-name-suffix nil)
+  (setq use-package-verbose t))
 
 ;; provides `straight-x-clean-unused-repos' (part of `straight.el')
 (use-package straight-x)
 
 (use-package vc
+  :straight (:type built-in)
   :config
   (setq vc-follow-symlinks t))
 
 ;; For Key-bindings.
 (use-package general
+  :commands (general-define-key)
   :straight t)
 
 (use-package which-key
@@ -73,6 +76,7 @@
   (which-key-mode))
 
 (use-package helpful
+  :defer t
   :straight t
   :config
   (setq apropos-do-all t)
@@ -106,6 +110,15 @@
 (require 'init-save-recent)
 (require 'init-autorevert)
 (require 'init-frames)
+
+;; Profile emacs startup
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (message "*** Emacs loaded in %s with %d garbage collections."
+                     (format "%.2f seconds"
+                             (float-time
+                              (time-subtract after-init-time before-init-time)))
+                     gcs-done)))
 
 (provide 'init-core)
 ;;; init-core.el ends here
