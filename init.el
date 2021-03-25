@@ -58,7 +58,7 @@
 
 (require 'init-core)
 (require 'init-editor)
-(require 'init-modules)
+
 
 (provide 'init)
 ;;; init.el ends here
