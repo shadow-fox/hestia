@@ -12,15 +12,10 @@
 ;; Set the variable pitch face
 (set-face-attribute 'variable-pitch nil :font "Fira Code" :height 120 :weight 'regular)
 
-;; (use-package dracula-theme
-;;   :straight t
-;;   :config
-;;   (load-theme 'dracula t))
-
-;; (use-package gruvbox-theme
-;;   :straight t
-;;   :init
-;;   (load-theme 'gruvbox t))
+(use-package dracula-theme
+  :straight t
+  :config
+  (load-theme 'dracula t))
 
 (use-package all-the-icons
   :straight t
@@ -29,38 +24,11 @@
              (window-system))
     (all-the-icons-install-fonts t)))
 
-(use-package doom-themes
-  :straight t
-  :config
-  ;; Global settings (defaults)
-  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-        doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  (load-theme 'doom-dracula t)
-
-  ;; Enable flashing mode-line on errors
-  (doom-themes-visual-bell-config)
-  
-  ;; Enable custom neotree theme (all-the-icons must be installed!)
-  (doom-themes-neotree-config)
-  ;; or for treemacs users
-  (setq doom-themes-treemacs-theme "doom-colors") ; use the colorful treemacs theme
-  (doom-themes-treemacs-config)
-  
-  ;; Corrects (and improves) org-mode's native fontification.
-  (doom-themes-org-config))
-
-;; (use-package doom-modeline
-;;   :straight t
-;;   :hook (after-init . doom-modeline-mode))
-
 (use-package solaire-mode
-  :after doom-themes
   :straight t
   :config
   (solaire-global-mode +1)
-  (solaire-mode-swap-bg)
-  )
-
+  (solaire-mode-swap-bg))
 
 (provide 'init-theme-font)
 ;;; init-theme-font.el ends here

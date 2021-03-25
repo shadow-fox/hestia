@@ -2,10 +2,6 @@
 
 ;;; Commentary:
 
-;; Emacs 27+ loads this file before (normally) calling
-;; `package-initialize'.  We use this file to suppress that automatic
-;; behaviour so that startup is consistent across Emacs versions.
-
 ;;; Code:
 
 ;; A big contributor to startup times is garbage collection. We up the gc

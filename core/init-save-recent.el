@@ -21,7 +21,7 @@
           ;; Replace $HOME with ~, which is more portable, and reduces how much
           ;; horizontal space the recentf listing uses to list recent files.
           abbreviate-file-name)
-        recentf-save-file (concat hestia-local-dir "/recentf")
+        recentf-save-file (concat hestia-local-dir "recentf")
         recentf-auto-cleanup 'never
         recentf-max-menu-items 0
         recentf-max-saved-items 200)
@@ -34,7 +34,7 @@
   :defer t
   :hook (doom-first-input . savehist-mode)
   :init
-  (setq savehist-file (concat hestia-local-dir "/savehist"))
+  (setq savehist-file (concat hestia-local-dir "savehist"))
   :config
   (setq savehist-save-minibuffer-history t
         savehist-autosave-interval nil     ; save on kill only
@@ -49,7 +49,7 @@
   ;; persistent point location in buffers
   :hook (doom-first-file . save-place-mode)
   :init
-  (setq save-place-file (concat hestia-local-dir "/saveplace")
+  (setq save-place-file (concat hestia-local-dir "saveplace")
         save-place-limit 100))
 
 (provide 'init-save-recent)

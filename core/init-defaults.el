@@ -21,14 +21,14 @@
       initial-scratch-message nil)
 
 ;; We avoid `no-littering' because it's a mote too opinionated for our needs.
-(setq async-byte-compile-log-file  (concat hestia-local-dir "/async-bytecomp.log")
+(setq async-byte-compile-log-file  (concat hestia-local-dir "async-bytecomp.log")
       custom-file                  (concat hestia-dir "custom.el")
-      desktop-dirname              (concat hestia-local-dir "/desktop")
+      desktop-dirname              (concat hestia-local-dir "desktop")
       desktop-base-file-name       "autosave"
       desktop-base-lock-name       "autosave-lock"
-      pcache-directory             (concat hestia-local-dir "/pcache/")
-      request-storage-directory    (concat hestia-local-dir "/request")
-      shared-game-score-directory  (concat hestia-local-dir "/shared-game-score/"))
+      pcache-directory             (concat hestia-local-dir "pcache/")
+      request-storage-directory    (concat hestia-local-dir "request")
+      shared-game-score-directory  (concat hestia-local-dir "shared-game-score/"))
 
 ;; Don't generate backups or lockfiles. While auto-save maintains a copy so long
 ;; as a buffer is unsaved, backups create copies once, when the file is first
@@ -43,7 +43,7 @@
       delete-old-versions t ; clean up after itself
       kept-old-versions 5
       kept-new-versions 5
-      backup-directory-alist (list (cons "." (concat hestia-local-dir "/backup/")))
+      backup-directory-alist (list (cons "." (concat hestia-local-dir "backup/")))
       tramp-backup-directory-alist backup-directory-alist)
 
 ;; But turn on auto-save, so we have a fallback in case of crashes or lost data.

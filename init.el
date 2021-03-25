@@ -12,7 +12,7 @@
   (getenv
    (if (equal system-type 'windows-nt) "USERNAME" "USER")))
 
-(message "[Hestia] Hestia is powering up... Be patient, Master %s!" hestia-user)
+(message "[Hestia] is powering up... Be patient, Master %s!" hestia-user)
 
 ;; Always load newest byte code
 (setq load-prefer-newer t)
@@ -21,16 +21,16 @@
 (defvar hestia-dir (file-name-directory load-file-name)
   "The root dir of the Emacs Hestia distribution.")
 
-(defvar hestia-core-dir (expand-file-name "core" hestia-dir)
+(defvar hestia-core-dir (expand-file-name "core/" hestia-dir)
   "The home of Hestia's core functionality.")
 
-(defvar hestia-modules-dir (expand-file-name  "modules" hestia-dir)
+(defvar hestia-modules-dir (expand-file-name  "modules/" hestia-dir)
   "This directory houses all of the built-in Hestia modules.")
 
-(defvar hestia-editor-dir (expand-file-name  "editor" hestia-dir)
+(defvar hestia-editor-dir (expand-file-name  "editor/" hestia-dir)
   "This directory houses all of the built-in Hestia editor.")
 
-(defvar hestia-local-dir (expand-file-name ".local" hestia-dir)
+(defvar hestia-local-dir (expand-file-name ".local/" hestia-dir)
   "Hidden dir to store other files that are not part of configuration.")
 
 (defvar hestia-savefile-dir (expand-file-name "savefile" hestia-local-dir)

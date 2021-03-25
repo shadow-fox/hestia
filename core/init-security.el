@@ -35,7 +35,7 @@
 ;; Emacs stores `authinfo' in $HOME and in plain-text. Let's not do that, mkay?
 ;; This file stores usernames, passwords, and other such treasures for the
 ;; aspiring malicious third party.
-(setq auth-sources (list (concat hestia-local-dir "/authinfo.gpg")
+(setq auth-sources (list (concat hestia-local-dir "authinfo.gpg")
                          "~/.authinfo.gpg"))
 
 (provide 'init-security)

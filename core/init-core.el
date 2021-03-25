@@ -52,19 +52,21 @@
 ;; For Key-bindings.
 (use-package general
   :commands (general-define-key)
-  :straight t)
+  :straight t
+  :defer t)
 
 (use-package which-key
   :straight t
+  :defer t
   :config
   (setq which-key-dont-use-unicode t)
   (setq which-key-add-column-padding 2)
   (setq which-key-show-early-on-C-h nil)
-  ;;(setq which-key-idle-delay most-positive-fixnum)
-  ;;(setq which-key-idle-secondary-delay 0.05)
+  (setq which-key-idle-delay most-positive-fixnum)
+  (setq which-key-idle-secondary-delay 0.05)
   (setq which-key-popup-type 'side-window)
   (setq which-key-show-prefix 'echo)
-  (setq which-key-max-display-columns nil)
+  (setq which-key-max-display-columns 3)
   (setq which-key-separator "  ")
   (setq which-key-special-keys nil)
   (setq which-key-paging-key "<next>")
@@ -72,9 +74,8 @@
         which-key-sort-uppercase-first nil
         which-key-min-display-lines 6
         which-key-side-window-slot -10)
-
   (which-key-setup-side-window-bottom)
-  (which-key-mode))
+  (which-key-mode t))
 
 (use-package helpful
   :defer t

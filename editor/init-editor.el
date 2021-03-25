@@ -155,8 +155,11 @@
 ;; Many major modes do no highlighting of number literals, so we do it for them
 (use-package highlight-numbers
   :straight t
-  :hook ((prog-mode-hook conf-mode-hook) . highlight-numbers-mode)
-  :config (setq highlight-numbers-generic-regexp "\\_<[[:digit:]]+\\(?:\\.[0-9]*\\)?\\_>"))
+  :hook (
+         (prog-mode-hook . highlight-numbers-mode)
+         (conf-mode-hook . highlight-numbers-mode))
+  :config
+  (setq highlight-numbers-generic-regexp "\\_<[[:digit:]]+\\(?:\\.[0-9]*\\)?\\_>"))
 
 ;;;###package image
 (setq image-animate-loop t)
