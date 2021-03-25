@@ -222,10 +222,10 @@
 (delete-selection-mode t)
 
 (use-package restart-emacs
+  :commands (restart-emacs)
   :straight t)
 
 (require 'init-theme-font)
-(require 'init-workspace)
 
 (provide 'init-editor)
 ;;; init-editor.el ends here

@@ -1,7 +1,7 @@
 ;;; init-save-recent.el --- Summary:
 
 ;;; Commentary:
-
+;; TODO : Clean up doom related references.
 ;;; Code:
 
 (use-package recentf

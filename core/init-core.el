@@ -45,6 +45,7 @@
 
 (use-package vc
   :straight (:type built-in)
+  :defer t
   :config
   (setq vc-follow-symlinks t))
 

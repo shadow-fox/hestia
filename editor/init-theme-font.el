@@ -4,18 +4,18 @@
 
 ;;; Code:
 
-(set-face-attribute 'default nil :font "Iosevka" :height 120)
+(set-face-attribute 'default nil :font "Fira Code" :height 120)
 
 ;; Set the fixed pitch face
-(set-face-attribute 'fixed-pitch nil :font "Iosevka" :height 120)
+(set-face-attribute 'fixed-pitch nil :font "Fira Code" :height 120)
 
 ;; Set the variable pitch face
-(set-face-attribute 'variable-pitch nil :font "Iosevka" :height 120 :weight 'regular)
+(set-face-attribute 'variable-pitch nil :font "Fira Code" :height 120 :weight 'regular)
 
-(use-package dracula-theme
-  :straight t
-  :config
-  (load-theme 'dracula t))
+;; (use-package dracula-theme
+;;   :straight t
+;;   :config
+;;   (load-theme 'dracula t))
 
 ;; (use-package gruvbox-theme
 ;;   :straight t
@@ -35,7 +35,7 @@
   ;; Global settings (defaults)
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
         doom-themes-enable-italic t) ; if nil, italics is universally disabled
-  (load-theme 'doom-acario-dark t)
+  (load-theme 'doom-dracula t)
 
   ;; Enable flashing mode-line on errors
   (doom-themes-visual-bell-config)
@@ -49,9 +49,18 @@
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config))
 
-(use-package doom-modeline
+;; (use-package doom-modeline
+;;   :straight t
+;;   :hook (after-init . doom-modeline-mode))
+
+(use-package solaire-mode
+  :after doom-themes
   :straight t
-  :hook (after-init . doom-modeline-mode))
+  :config
+  (solaire-global-mode +1)
+  (solaire-mode-swap-bg)
+  )
+
 
 (provide 'init-theme-font)
 ;;; init-theme-font.el ends here

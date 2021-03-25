@@ -4,6 +4,8 @@
 
 ;;; Code:
 
+(require 'init-workspace)
+
 (require 'init-shell)
 (require 'init-completions)
 (require 'init-ivy)
