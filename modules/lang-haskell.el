@@ -16,6 +16,7 @@
    (haskell-mode-hook . flyspell-prog-mode)
    )
   :config
+  ;; (setq haskell-mode-map (make-sparse-keymap))
   (setq haskell-compile-cabal-build-command "cabal build --ghc-option=-ferror-spans")
   (setq haskell-tags-on-save t)
 
@@ -23,6 +24,7 @@
     :hook
     (haskell-mode-hook . interactive-haskell-mode)
     :config
+    ;; (setq interactive-haskell-mode-map (make-sparse-keymap))
     (setq haskell-process-suggest-remove-import-lines t)
     (setq haskell-process-auto-import-loaded-modules t)
     (setq haskell-process-log t))
@@ -33,6 +35,7 @@
 
 (use-package lsp-haskell
   :straight t
+  :after (lsp haskell-mode)
   :hook
   (haskell-mode-hook . lsp)
   (haskell-literate-mode-hook . lsp)

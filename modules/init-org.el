@@ -5,6 +5,7 @@
 ;;; Code:
 
 (use-package org
+  :defer t
   :straight t
   :config
   (setq org-hide-leading-stars nil)
@@ -34,7 +35,7 @@
 
 (use-package org-superstar
   :straight t
-  :after org
+  :after org-mode
   :hook (org-mode-hook . org-superstar-mode)
   :config
   (setq org-superstar-leading-bullet ?\s)

@@ -28,7 +28,8 @@
   :after yasnippet)
 
 (use-package auto-yasnippet
-  :straight t)
+  :straight t
+  :after yasnippet)
 
 (provide 'init-templates)
 ;;; init-templates.el ends here

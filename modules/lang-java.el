@@ -6,7 +6,10 @@
 
 (require 'init-prog)
 
-(add-hook 'java-mode-hook #'rainbow-delimiters-mode)
+(use-package java
+  :straight (:type built-in)
+  :hook
+  (java-mode-hook .rainbow-delimiters-mode))
 
 ;; (use-package meghanada
 ;;   :straight t
@@ -19,6 +22,7 @@
 ;;         meghanada-use-auto-start t))
 
 (use-package groovy-mode
+  :demand t
   :straight t)
 
 (use-package lsp-java
@@ -51,8 +55,10 @@
   ;;   )
 ;;)
 
+(use-package dap-mode
+  :straight t)
+
 (use-package dap-java
-  :straight nil
   :after (dap-mode lsp))
 
 (provide 'lang-java)
