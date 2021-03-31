@@ -3,12 +3,12 @@
 ;;; Commentary:
 
 ;;; Code:
-(gen
+
 (use-package company
   :straight t
   :hook
-  (after-init-hook . global-company-mode)
-  :init
+  (after-init-hook . global-company-mode))
+  ;; :init
   ;; (setq company-minimum-prefix-length 2
   ;;       company-tooltip-limit 14
   ;;       company-tooltip-align-annotations t
@@ -39,7 +39,7 @@
   ;; :config
   ;; (setq company-idle-delay 0.125)
   ;; (setq company-transfers '(company-sort-by-occurrence))
-  )
+  ;; )
 
 (use-package company-dict
   :straight t
