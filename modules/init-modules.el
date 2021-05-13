@@ -21,5 +21,7 @@
 
 ;; (require 'init-pdf)
 
+(require 'init-erc)
+
 (provide 'init-modules)
 ;;; init-modules.el ends here

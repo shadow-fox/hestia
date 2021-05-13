@@ -29,5 +29,9 @@
  :keymaps 'envrc-mode-map
  "C-c e" 'envrc-command-map)
 
+(defun connect-pi ()
+  (interactive)
+  (dired "/ssh:/ubuntu@192.168.0.118:/"))
+
 (provide 'init-shell)
 ;;; init-shell.el ends here

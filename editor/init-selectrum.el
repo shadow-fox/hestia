@@ -4,17 +4,6 @@
 
 ;;; Code:
 
-;; TODO This might be useful however not yet working as expected.
-;; (use-package mini-frame
-;;   :straight t
-;;   :custom
-;;   (mini-frame-show-parameters
-;;    '((top . 10)
-;;      (width . 0.7)
-;;      (left . 0.5)))
-;;   :init
-;;   (mini-frame-mode t))
-
 (use-package prescient
   :straight t
   :config
@@ -25,7 +14,6 @@
   :hook
   (after-init-hook . selectrum-mode)
   :config
-  (setq completion-styles '(prescient))
   (setq-default selectrum-fix-vertical-window-height t))
 
 (use-package selectrum-prescient
