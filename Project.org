@@ -1,3 +1,0 @@
-* TODO Refine org mode
-* TODO Create project related files after projectile initialization.
-* TODO Better shell/term integration. libvterm + vterm
