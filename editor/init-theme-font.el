@@ -4,13 +4,13 @@
 
 ;;; Code:
 
-(set-face-attribute 'default nil :font "Fira Code" :height 120)
+(set-face-attribute 'default nil :font "FiraCode Nerd Font" :height 120)
 
 ;; Set the fixed pitch face
-(set-face-attribute 'fixed-pitch nil :font "Fira Code" :height 120)
+(set-face-attribute 'fixed-pitch nil :font "FiraCode Nerd Font" :height 120)
 
 ;; Set the variable pitch face
-(set-face-attribute 'variable-pitch nil :font "Fira Code" :height 120 :weight 'regular)
+(set-face-attribute 'variable-pitch nil :font "FiraCode Nerd Font" :height 120 :weight 'regular)
 
 (use-package dracula-theme
   :straight t
@@ -27,8 +27,7 @@
 (use-package solaire-mode
   :straight t
   :config
-  (solaire-global-mode +1)
-  (solaire-mode-swap-bg))
+  (solaire-global-mode +1))
 
 (provide 'init-theme-font)
 ;;; init-theme-font.el ends here
