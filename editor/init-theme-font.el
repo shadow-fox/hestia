@@ -24,11 +24,11 @@
              (window-system))
     (all-the-icons-install-fonts t)))
 
-(use-package solaire-mode
-  :straight t
-  :config
-  (solaire-global-mode +1)
-  (solaire-mode-swap-bg))
+;;(use-package solaire-mode
+;;  :straight t
+;;  :config
+;;  (solaire-global-mode +1)
+;;  (solaire-mode-swap-bg))
 
 (provide 'init-theme-font)
 ;;; init-theme-font.el ends here

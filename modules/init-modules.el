@@ -16,6 +16,9 @@
 ;;(require 'lang-java)
 
 (require 'lang-haskell)
+
+(require 'lang-cpp)
+
 ;;(require 'lang-python)
 ;;(require 'lang-rust)
 
