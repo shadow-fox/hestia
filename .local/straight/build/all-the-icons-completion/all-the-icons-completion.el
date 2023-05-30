@@ -1,0 +1,1 @@
+/home/fox/.emacs.d/.local/straight/repos/all-the-icons-completion/all-the-icons-completion.el

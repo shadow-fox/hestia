@@ -1,0 +1,1 @@
+/home/fox/.emacs.d/.local/straight/repos/eldoc/eldoc.el

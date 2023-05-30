@@ -1,0 +1,1 @@
+/home/fox/.emacs.d/.local/straight/repos/modus-themes/modus-vivendi-tritanopia-theme.el

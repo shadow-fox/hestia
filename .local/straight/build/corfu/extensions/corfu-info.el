@@ -1,0 +1,1 @@
+/home/fox/.emacs.d/.local/straight/repos/corfu/extensions/corfu-info.el
