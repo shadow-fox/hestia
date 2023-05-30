@@ -4,9 +4,10 @@
 
 ;;; Code:
 
-(use-package eglot
-  :config
-  (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster))
+
+;;(use-package eglot
+;;  :config
+;;  (advice-add 'eglot-completion-at-point :around #'cape-wrap-buster))
 
 (use-package flycheck)
 
