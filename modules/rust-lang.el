@@ -4,17 +4,11 @@
 
 ;;; Code:
 
-(use-package rust-mode
+(use-package rustic
   :config
   ;; comment to disable rustfmt on save
-  (setq rust-format-on-save t)
-  (setq rust-lsp-client 'eglot)
-  :hook
-  (rust-mode . (lambda () (setq indent-tabs-mode nil)))
-  (rust-mode . (lambda () (prettify-symbols-mode)))
-  (rust-mode . eglot-ensure)
-  (rust-mode . tree-sitter-mode)
-  (rust-mode . tree-sitter-hl-mode))
+  (setq rustic-format-on-save-method t)
+  (setq rustic-lsp-client 'eglot))
 
 (provide 'rust-lang)
 

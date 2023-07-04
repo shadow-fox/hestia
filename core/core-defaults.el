@@ -4,14 +4,17 @@
 
 ;;; Code:
 
-(setq inhibit-startup-message t
-      inhibit-startup-echo-area-message user-login-name
-      inhibit-default-init t
-      ;; Shave seconds off startup time by starting the scratch buffer in
-      ;; `fundamental-mode', rather than, say, `org-mode' or `text-mode', which
-      ;; pull in a ton of packages.
-      initial-major-mode 'fundamental-mode
-      initial-scratch-message nil)
+(use-package emacs
+  :config
+
+  (setq inhibit-startup-message t
+        inhibit-startup-echo-area-message user-login-name
+        inhibit-default-init t
+        ;; Shave seconds off startup time by starting the scratch buffer in
+        ;; `fundamental-mode', rather than, say, `org-mode' or `text-mode', which
+        ;; pull in a ton of packages.
+        initial-major-mode 'fundamental-mode
+        initial-scratch-message nil))
 
 ;; We avoid `no-littering' because it's a mote too opinionated for our needs.
 (setq async-byte-compile-log-file  (concat hestia-local-dir "async-bytecomp.log")

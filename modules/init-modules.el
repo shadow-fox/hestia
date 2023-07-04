@@ -10,7 +10,10 @@
 
 ;; Language setup
 (require 'rust-lang)
+
 (require 'js-web)
+
+(require 'java-lang)
 
 (provide 'init-modules)
 

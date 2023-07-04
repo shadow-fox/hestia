@@ -53,6 +53,8 @@
 
 (require 'window-config)
 
+(require 'pdf-config)
+
 (provide 'init-core)
 
 ;;; init-core.el ends here

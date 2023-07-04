@@ -1,0 +1,3 @@
+;;; -*- lisp-data -*-
+(("~/.config/emacs/") ("~/storage/sandbox/finlabdata/")
+ ("~/storage/sandbox/nse-lib/") ("~/storage/sandbox/search-eco/lucene/"))
